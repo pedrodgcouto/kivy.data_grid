@@ -82,13 +82,70 @@ class DataGrid(GridLayout):
 		for bcell in body_data:
 			n = 0
 			for item in bcell:
+				def change_on_press(self):
+					#	contrast_text = 
+					# self.text = '[color=FFFFFF]' + 'texto' + '[/color]'
+					# print get(row_10_col_1)
+					# print self.id
+					childs = self.parent.children
+					for ch in childs:
+						# ch.state="down"
+						if ch.id == self.id:
+							print ch.state
+							print len(ch.id)
+							row_n = 0
+							if len(ch.id) == 11:
+								row_n = ch.id[4:5]
+							else:
+								row_n = ch.id[4:6]
 
-				cell = CLabel(text=('[color=1b799c]' + item + '[/color]'), 
-											_background_color=(0,0,0,0), 
+							for c in childs:
+								if ('row_'+str(row_n)+'_col_0') == c.id:
+									if c.state == "normal":
+										c.state="down"
+									else:	
+										c.state="normal"
+								if ('row_'+str(row_n)+'_col_1') == c.id:
+									if c.state == "normal":
+										c.state="down"
+									else:	
+										c.state="normal"
+								if ('row_'+str(row_n)+'_col_2') == c.id:
+									if c.state == "normal":
+										c.state="down"
+									else:	
+										c.state="normal"
+								if ('row_'+str(row_n)+'_col_3') == c.id:
+									if c.state == "normal":
+										c.state="down"
+									else:
+										c.state="normal"
+							# row_var_0 = 'row_' + str(row_n) + '_col_0'
+							# row_var_1 = 'row_' + str(row_n) + '_col_1'
+							# row_var_2 = 'row_' + str(row_n) + '_col_2'
+							# row_var_3 = 'row_' + str(row_n) + '_col_3'
+							# vars()[row_var_0]
+							# vars()[row_var_1]
+							# vars()[row_var_2]
+							# vars()[row_var_3]
+					#print self.text
+					# print self.parent.children
+
+
+				def change_on_release(self):
+					# self.text = '[color=1b799c]' + 'texto' + '[/color]'
+					if self.state == "normal":
+						self.state = "down"
+					else:
+						self.state = "normal"
+					
+				cell = CLabel(text=('[color=000000]' + item + '[/color]'), 
 											background_normal="background_normal.png",
 											background_down="background_pressed.png",
 											halign=b_align[n],
-											markup=True, 
+											markup=True,
+											on_press=partial(change_on_press),
+											on_release=partial(change_on_release),
 											text_size=(300, None),
 											size_hint_x=cols_size[n], 
 											id=("row_" + str(counter) + "_col_" + str(n)))
@@ -117,13 +174,16 @@ grid = DataGrid(header, data, body_alignment, col_size)
 # 		botao = Button(text="Adicionar Registo")
 # 		self.add_widget(botao)
 
+root = BoxLayout(orientation="vertical")
+root.add_widget(grid)
 
 class MainApp(App):
 	def build(self):
-		grid = DataGrid(header, data, body_alignment, col_size)
+		# grid = DataGrid(header, data, body_alignment, col_size)
 		# interface = Interface()
-		print Window.size
-		return grid
+		# print Window.size
+		# return grid
+		return root
 
 if __name__=='__main__':
 	MainApp().run()
