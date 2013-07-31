@@ -56,6 +56,16 @@ products_list = []
 #	[UIColor colorWithRed:0.108 green:0.476 blue:0.611 alpha:1.000]
 
 class DataGrid(GridLayout):
+	
+	def add_row():
+		pass
+
+	def remove_row():
+		pass
+
+	def update_row():
+		pass
+
 	def __init__(self, header_data, body_data, b_align, cols_size, **kwargs):
 		super(DataGrid, self).__init__(**kwargs)
 		self.cols = len(header_data)
