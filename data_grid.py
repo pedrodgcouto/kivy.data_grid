@@ -56,7 +56,7 @@ products_list = []
 #	[UIColor colorWithRed:0.108 green:0.476 blue:0.611 alpha:1.000]
 
 class DataGrid(GridLayout):
-	
+
 	def add_row():
 		pass
 
@@ -82,14 +82,24 @@ class DataGrid(GridLayout):
 		for bcell in body_data:
 			n = 0
 			for item in bcell:
+
 				cell = CLabel(text=('[color=1b799c]' + item + '[/color]'), 
 											background_color=(0,0,0,0), 
-											_padding_x=40, 
 											halign=b_align[n], 
 											markup=True, 
+											text_size=(300, None),
 											size_hint_x=cols_size[n], 
 											id=("row_" + str(counter) + "_col_" + str(n)))
+				
+				tmp = Window.size[0] * cell.size_hint_x
+				print tmp
+				#cell.halign="right"
+				cell.text_size=(tmp, None)
+				#cell.bind(text_size=(tmp, None), halign="right")
 				print cell.id
+				print cell.size_hint_x
+				print Window.size[0]
+				print (Window.size[0] * cell.size_hint_x)
 				# def on_pressed_cell(self):
 				# 	self.row_10_col_1.bind(state = "Down")
 				# 	print self
