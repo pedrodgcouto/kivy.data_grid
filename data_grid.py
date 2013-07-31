@@ -43,7 +43,7 @@ class HeaderLabel(Label):
 	bgcolor = ListProperty([0.108,0.476,0.611])
 
 
-data_json = open('/Users/pedrodgcouto/Dropbox/Projects/App_Tests/data_grid/data.json')
+data_json = open('data.json')
 data = json.load(data_json)
 
 header = ['ID', 'Nome', 'Preco', 'IVA']
@@ -57,20 +57,28 @@ products_list = []
 
 class DataGrid(GridLayout):
 	def __init__(self, header_data, body_data, b_align, cols_size, **kwargs):
-		# super(DataGrid, self).__init__(**kwargs)
+		super(DataGrid, self).__init__(**kwargs)
 		self.cols = len(header_data)
 		self.rows = len(body_data) + 1
 		self.spacing = [1,1]
 		n = 0
 		for hcell in header_data:
 			header_str = "[b]" + str(hcell) + "[/b]"
-			self.add_widget(HeaderLabel(text=header_str, markup=True, size_hint_x=cols_size[n]))
+			self.add_widget(HeaderLabel(text=header_str, 
+																	markup=True, 
+																	size_hint_x=cols_size[n]))
 			n+=1
 		counter = 0
 		for bcell in body_data:
 			n = 0
 			for item in bcell:
-				cell = CLabel(text=item, padding_x=40, halign=b_align[n], markup=True, size_hint_x=cols_size[n], id=("row_" + str(counter) + "_col_" + str(n)))
+				cell = CLabel(text=('[color=1b799c]' + item + '[/color]'), 
+											background_color=(0,0,0,0), 
+											_padding_x=40, 
+											halign=b_align[n], 
+											markup=True, 
+											size_hint_x=cols_size[n], 
+											id=("row_" + str(counter) + "_col_" + str(n)))
 				print cell.id
 				# def on_pressed_cell(self):
 				# 	self.row_10_col_1.bind(state = "Down")
@@ -78,25 +86,25 @@ class DataGrid(GridLayout):
 				cell.texture_update()
 				self.add_widget(cell)
 				n+=1
-				cell.bind(on_press=partial(on_pressed_cell))
+				# cell.bind(on_press=partial(on_pressed_cell))
 			counter += 1
 
 grid = DataGrid(header, data, body_alignment, col_size)
 
-class Interface(BoxLayout):
-	def __init__(self, **kwargs):
-		super(Interface, self).__init__(**kwargs)
-		self.add_widget(grid)
-		botao = Button(text="Adicionar Registo")
-		self.add_widget(botao)
+# class Interface(BoxLayout):
+# 	def __init__(self, **kwargs):
+# 		super(Interface, self).__init__(**kwargs)
+# 		self.add_widget(grid)
+# 		botao = Button(text="Adicionar Registo")
+# 		self.add_widget(botao)
 
 
 class MainApp(App):
 	def build(self):
-		# grid = DataGrid(header, data, body_alignment, col_size)
-		interface = Interface()
+		grid = DataGrid(header, data, body_alignment, col_size)
+		# interface = Interface()
 		print Window.size
-		return interface
+		return grid
 
 if __name__=='__main__':
 	MainApp().run()
