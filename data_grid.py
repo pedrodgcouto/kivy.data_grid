@@ -48,7 +48,7 @@ data = json.load(data_json)
 
 header = ['ID', 'Nome', 'Preco', 'IVA']
 col_size = [0.1, 0.5, 0.2, 0.2]
-body_alignment = ["left", "left", "right", "right"]
+body_alignment = ["center", "left", "right", "right"]
 
 products_list = []
 
@@ -84,22 +84,21 @@ class DataGrid(GridLayout):
 			for item in bcell:
 
 				cell = CLabel(text=('[color=1b799c]' + item + '[/color]'), 
-											background_color=(0,0,0,0), 
-											halign=b_align[n], 
+											_background_color=(0,0,0,0), 
+											background_normal="background_normal.png",
+											background_down="background_pressed.png",
+											halign=b_align[n],
 											markup=True, 
 											text_size=(300, None),
 											size_hint_x=cols_size[n], 
 											id=("row_" + str(counter) + "_col_" + str(n)))
 				
-				tmp = Window.size[0] * cell.size_hint_x
-				print tmp
-				#cell.halign="right"
-				cell.text_size=(tmp, None)
-				#cell.bind(text_size=(tmp, None), halign="right")
-				print cell.id
-				print cell.size_hint_x
-				print Window.size[0]
-				print (Window.size[0] * cell.size_hint_x)
+				cell_width = Window.size[0] * cell.size_hint_x
+				cell.text_size=(cell_width - 30, None)
+				# print cell.id
+				# print cell.size_hint_x
+				# print Window.size[0]
+				# print (Window.size[0] * cell.size_hint_x)
 				# def on_pressed_cell(self):
 				# 	self.row_10_col_1.bind(state = "Down")
 				# 	print self
