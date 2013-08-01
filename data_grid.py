@@ -52,8 +52,6 @@ body_alignment = ["center", "left", "right", "right"]
 
 products_list = []
 
-# [UIColor colorWithWhite:1.000 alpha:1.000]
-#	[UIColor colorWithRed:0.108 green:0.476 blue:0.611 alpha:1.000]
 
 class DataGrid(GridLayout):
 
@@ -83,10 +81,6 @@ class DataGrid(GridLayout):
 			n = 0
 			for item in bcell:
 				def change_on_press(self):
-					#	contrast_text = 
-					# self.text = '[color=FFFFFF]' + 'texto' + '[/color]'
-					# print get(row_10_col_1)
-					# print self.id
 					childs = self.parent.children
 					for ch in childs:
 						# ch.state="down"
@@ -120,20 +114,11 @@ class DataGrid(GridLayout):
 										c.state="down"
 									else:
 										c.state="normal"
-							# row_var_0 = 'row_' + str(row_n) + '_col_0'
-							# row_var_1 = 'row_' + str(row_n) + '_col_1'
-							# row_var_2 = 'row_' + str(row_n) + '_col_2'
-							# row_var_3 = 'row_' + str(row_n) + '_col_3'
-							# vars()[row_var_0]
-							# vars()[row_var_1]
-							# vars()[row_var_2]
-							# vars()[row_var_3]
 					#print self.text
 					# print self.parent.children
 
 
 				def change_on_release(self):
-					# self.text = '[color=1b799c]' + 'texto' + '[/color]'
 					if self.state == "normal":
 						self.state = "down"
 					else:
@@ -166,13 +151,6 @@ class DataGrid(GridLayout):
 			counter += 1
 
 grid = DataGrid(header, data, body_alignment, col_size)
-
-# class Interface(BoxLayout):
-# 	def __init__(self, **kwargs):
-# 		super(Interface, self).__init__(**kwargs)
-# 		self.add_widget(grid)
-# 		botao = Button(text="Adicionar Registo")
-# 		self.add_widget(botao)
 
 root = BoxLayout(orientation="vertical")
 root.add_widget(grid)
