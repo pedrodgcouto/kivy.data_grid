@@ -13,8 +13,10 @@ from kivy.uix.button import Button
 from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.listview import ListView
 from functools import partial
 from kivy.core.window import Window
+from kivy.uix.scrollview import ScrollView
 
 Builder.load_string('''
 # define how clabel looks and behaves
@@ -54,18 +56,16 @@ products_list = []
 
 
 class DataGrid(GridLayout):
-
 	def add_row():
 		pass
-
 	def remove_row():
 		pass
-
 	def update_row():
 		pass
-
 	def __init__(self, header_data, body_data, b_align, cols_size, **kwargs):
 		super(DataGrid, self).__init__(**kwargs)
+		self.size_hint_y=None
+		self.bind(minimum_height=self.setter('height'))
 		self.cols = len(header_data)
 		self.rows = len(body_data) + 1
 		self.spacing = [1,1]
@@ -74,6 +74,8 @@ class DataGrid(GridLayout):
 			header_str = "[b]" + str(hcell) + "[/b]"
 			self.add_widget(HeaderLabel(text=header_str, 
 																	markup=True, 
+																	size_hint_y=None,
+																	height=40,
 																	size_hint_x=cols_size[n]))
 			n+=1
 		counter = 0
@@ -83,7 +85,6 @@ class DataGrid(GridLayout):
 				def change_on_press(self):
 					childs = self.parent.children
 					for ch in childs:
-						# ch.state="down"
 						if ch.id == self.id:
 							print ch.state
 							print len(ch.id)
@@ -92,7 +93,6 @@ class DataGrid(GridLayout):
 								row_n = ch.id[4:5]
 							else:
 								row_n = ch.id[4:6]
-
 							for c in childs:
 								if ('row_'+str(row_n)+'_col_0') == c.id:
 									if c.state == "normal":
@@ -114,16 +114,12 @@ class DataGrid(GridLayout):
 										c.state="down"
 									else:
 										c.state="normal"
-					#print self.text
-					# print self.parent.children
-
-
 				def change_on_release(self):
 					if self.state == "normal":
 						self.state = "down"
 					else:
 						self.state = "normal"
-					
+				#Cell definition
 				cell = CLabel(text=('[color=000000]' + item + '[/color]'), 
 											background_normal="background_normal.png",
 											background_down="background_pressed.png",
@@ -131,29 +127,45 @@ class DataGrid(GridLayout):
 											markup=True,
 											on_press=partial(change_on_press),
 											on_release=partial(change_on_release),
-											text_size=(300, None),
+											text_size=(0, None),
 											size_hint_x=cols_size[n], 
+											size_hint_y=None,
+											height=40,
 											id=("row_" + str(counter) + "_col_" + str(n)))
-				
 				cell_width = Window.size[0] * cell.size_hint_x
 				cell.text_size=(cell_width - 30, None)
-				# print cell.id
-				# print cell.size_hint_x
-				# print Window.size[0]
-				# print (Window.size[0] * cell.size_hint_x)
-				# def on_pressed_cell(self):
-				# 	self.row_10_col_1.bind(state = "Down")
-				# 	print self
 				cell.texture_update()
 				self.add_widget(cell)
 				n+=1
-				# cell.bind(on_press=partial(on_pressed_cell))
 			counter += 1
+
+
 
 grid = DataGrid(header, data, body_alignment, col_size)
 
-root = BoxLayout(orientation="vertical")
-root.add_widget(grid)
+scroll = ScrollView(size_hint=(1, 1), size=(400, 400), pos_hint={'center_x':.5, 'center_y':.5})
+scroll.add_widget(grid)
+scroll.do_scroll_y = True
+scroll.do_scroll_x = False
+
+
+
+add_row_btn = Button(text="Add Row")
+del_row_btn = Button(text="Delete Row")
+upt_row_btn = Button(text="Update Row")
+
+btn_grid = BoxLayout(orientation="vertical")
+btn_grid.add_widget(add_row_btn)
+btn_grid.add_widget(del_row_btn)
+btn_grid.add_widget(upt_row_btn)
+
+root = BoxLayout(orientation="horizontal")
+
+root.add_widget(scroll)
+root.add_widget(btn_grid)
+
+
+
 
 class MainApp(App):
 	def build(self):
