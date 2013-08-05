@@ -120,14 +120,28 @@ class DataGrid(GridLayout):
 			n+=1
 		counter += 1
 		#self.rows += 1
-	def remove_row(self, instance, **kwargs):
+	def remove_row(self, n_cols, instance, **kwargs):
 		childs = self.parent.children
+		selected = 0
 		for ch in childs:
 			for c in reversed(ch.children):
 				if c.id != "Header_Label":
 					if c.state == "down":
 						self.remove_widget(c)
 						print str(c.id) + '   -   ' + str(c.state)
+						selected += 1
+		if selected == 0:
+			for ch in childs:
+				count_01 = n_cols
+				count_02 = 0
+				for c in reversed(ch.children):
+					if c.id != "Header_Label":
+						print str(n_cols)
+					 	self.remove_widget(c)
+					 	count_02 += 1
+					if count_01 == count_02:
+						break
+							
 
 			
 
@@ -183,7 +197,7 @@ scroll.do_scroll_x = False
 
 pp = partial(grid.add_row, ['001', 'Teste', '4.00', '4.00'], body_alignment, col_size)
 add_row_btn = Button(text="Add Row", on_press=pp)
-del_row_btn = Button(text="Delete Row", on_press=partial(grid.remove_row))
+del_row_btn = Button(text="Delete Row", on_press=partial(grid.remove_row, len(header)))
 upt_row_btn = Button(text="Update Row")
 slct_all_btn = Button(text="Select All", on_press=partial(grid.select_all))
 unslct_all_btn = Button(text="Unselect All", on_press=partial(grid.unselect_all))
