@@ -194,7 +194,6 @@ scroll.add_widget(grid)
 scroll.do_scroll_y = True
 scroll.do_scroll_x = False
 
-
 pp = partial(grid.add_row, ['001', 'Teste', '4.00', '4.00'], body_alignment, col_size)
 add_row_btn = Button(text="Add Row", on_press=pp)
 del_row_btn = Button(text="Delete Row", on_press=partial(grid.remove_row, len(header)))
@@ -204,13 +203,31 @@ unslct_all_btn = Button(text="Unselect All", on_press=partial(grid.unselect_all)
 
 show_grid_log = Button(text="Show log", on_press=partial(grid.show_log))
 
+add_custom_row = Button(text="Add Custom Row", on_press=partial(grid.show_log))
+
+
+
+def json_fill(self):
+	for d in data:
+		print d
+		grid.add_row(d, body_alignment, col_size, self)
+	# for row in datalist:
+	# 	for cell in row:
+	# 		print cell
+	# 	print row
+		#grid.add_row(row, body_alignment, col_size)
+
+json_fill_btn = Button(text="JSON fill", on_press=json_fill)
+
 btn_grid = BoxLayout(orientation="vertical")
+btn_grid.add_widget(json_fill_btn)
 btn_grid.add_widget(add_row_btn)
 btn_grid.add_widget(del_row_btn)
 btn_grid.add_widget(upt_row_btn)
 btn_grid.add_widget(slct_all_btn)
 btn_grid.add_widget(unslct_all_btn)
 btn_grid.add_widget(show_grid_log)
+btn_grid.add_widget(add_custom_row)
 
 root = BoxLayout(orientation="horizontal")
 
