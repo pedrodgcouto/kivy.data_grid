@@ -50,15 +50,16 @@ data = json.load(data_json)
 
 header = ['ID', 'Nome', 'Preco', 'IVA']
 col_size = [0.1, 0.5, 0.2, 0.2]
-body_alignment = ["center", "left", "right", "right"]
+#body_alignment = ["center", "left", "right", "right"]
+body_alignment = ["center", "center", "center", "center"]
 
 products_list = []
-
 
 counter = 0
 class DataGrid(GridLayout):
 	def add_row(self, row_data, row_align, cols_size, instance, **kwargs):
 		global counter
+		#self.rows = 2
 		##########################################################
 		def change_on_press(self):
 			childs = self.parent.children
@@ -118,13 +119,11 @@ class DataGrid(GridLayout):
 			self.add_widget(cell)
 			n+=1
 		counter += 1
+		#self.rows += 1
 	def remove_row(self, instance, **kwargs):
-		#	removes selected rows
-		#	if none is selected, then, removes the last one
-		#check if are selected rows
 		childs = self.parent.children
 		for ch in childs:
-			for c in ch.children:
+			for c in reversed(ch.children):
 				if c.id != "Header_Label":
 					if c.state == "down":
 						self.remove_widget(c)
@@ -174,6 +173,7 @@ class DataGrid(GridLayout):
 
 
 grid = DataGrid(header, data, body_alignment, col_size)
+grid.rows = 500
 
 scroll = ScrollView(size_hint=(1, 1), size=(400, 500000), pos_hint={'center_x':.5, 'center_y':.5})
 scroll.add_widget(grid)
