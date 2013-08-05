@@ -170,66 +170,6 @@ class DataGrid(GridLayout):
 																	id="Header_Label",
 																	size_hint_x=cols_size[n]))
 			n+=1
-		# counter = 0
-		# for bcell in body_data:
-		# 	n = 0
-		# 	for item in bcell:
-		# 		def change_on_press(self):
-		# 			childs = self.parent.children
-		# 			for ch in childs:
-		# 				if ch.id == self.id:
-		# 					print ch.state
-		# 					print len(ch.id)
-		# 					row_n = 0
-		# 					if len(ch.id) == 11:
-		# 						row_n = ch.id[4:5]
-		# 					else:
-		# 						row_n = ch.id[4:6]
-		# 					for c in childs:
-		# 						if ('row_'+str(row_n)+'_col_0') == c.id:
-		# 							if c.state == "normal":
-		# 								c.state="down"
-		# 							else:	
-		# 								c.state="normal"
-		# 						if ('row_'+str(row_n)+'_col_1') == c.id:
-		# 							if c.state == "normal":
-		# 								c.state="down"
-		# 							else:	
-		# 								c.state="normal"
-		# 						if ('row_'+str(row_n)+'_col_2') == c.id:
-		# 							if c.state == "normal":
-		# 								c.state="down"
-		# 							else:	
-		# 								c.state="normal"
-		# 						if ('row_'+str(row_n)+'_col_3') == c.id:
-		# 							if c.state == "normal":
-		# 								c.state="down"
-		# 							else:
-		# 								c.state="normal"
-		# 		def change_on_release(self):
-		# 			if self.state == "normal":
-		# 				self.state = "down"
-		# 			else:
-		# 				self.state = "normal"
-		# 		#Cell definition
-		# 		cell = CLabel(text=('[color=000000]' + item + '[/color]'), 
-		# 									background_normal="background_normal.png",
-		# 									background_down="background_pressed.png",
-		# 									halign=b_align[n],
-		# 									markup=True,
-		# 									on_press=partial(change_on_press),
-		# 									on_release=partial(change_on_release),
-		# 									text_size=(0, None),
-		# 									size_hint_x=cols_size[n], 
-		# 									size_hint_y=None,
-		# 									height=40,
-		# 									id=("row_" + str(counter) + "_col_" + str(n)))
-		# 		cell_width = Window.size[0] * cell.size_hint_x
-		# 		cell.text_size=(cell_width - 30, None)
-		# 		cell.texture_update()
-		# 		self.add_widget(cell)
-		# 		n+=1
-		# 	counter += 1
 
 
 
