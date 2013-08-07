@@ -198,7 +198,7 @@ class DataGrid(GridLayout):
 grid = DataGrid(header, data, body_alignment, col_size)
 grid.rows = 10
 
-scroll = ScrollView(size_hint=(1, 1), size=(400, 500000), pos_hint={'center_x':.5, 'center_y':.5})
+scroll = ScrollView(size_hint=(1, 1), size=(400, 500000), scroll_y=0, pos_hint={'center_x':.5, 'center_y':.5})
 scroll.add_widget(grid)
 scroll.do_scroll_y = True
 scroll.do_scroll_x = False
