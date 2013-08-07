@@ -2,6 +2,7 @@ import kivy
 import urllib2
 import json
 import pprint
+import functools
 kivy.require('1.7.1')
 
 from kivy.app import App
@@ -17,6 +18,8 @@ from kivy.uix.listview import ListView
 from functools import partial
 from kivy.core.window import Window
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.modalview import ModalView
+from kivy.uix.textinput import TextInput
 
 Builder.load_string('''
 # define how clabel looks and behaves
@@ -59,6 +62,7 @@ counter = 0
 class DataGrid(GridLayout):
 	def add_row(self, row_data, row_align, cols_size, instance, **kwargs):
 		global counter
+		self.rows += 1
 		#self.rows = 2
 		##########################################################
 		def change_on_press(self):
@@ -134,16 +138,21 @@ class DataGrid(GridLayout):
 			for ch in childs:
 				count_01 = n_cols
 				count_02 = 0
-				for c in reversed(ch.children):
-					if c.id != "Header_Label":
-						print str(n_cols)
-					 	self.remove_widget(c)
-					 	count_02 += 1
-					if count_01 == count_02:
+				count = 0
+				while (count < n_cols):
+					if n_cols != len(ch.children):
+						for c in ch.children:
+							if c.id != "Header_Label":
+								print "Length: " + str(len(ch.children))
+								print "N_cols: " + str(n_cols + 1)
+						
+								self.remove_widget(c)
+								count += 1
+								break
+							else:
+								break
+					else:
 						break
-							
-
-			
 
 	def select_all(self, instance, **kwargs):
 		childs = self.parent.children
@@ -187,7 +196,7 @@ class DataGrid(GridLayout):
 
 
 grid = DataGrid(header, data, body_alignment, col_size)
-grid.rows = 500
+grid.rows = 10
 
 scroll = ScrollView(size_hint=(1, 1), size=(400, 500000), pos_hint={'center_x':.5, 'center_y':.5})
 scroll.add_widget(grid)
@@ -203,21 +212,66 @@ unslct_all_btn = Button(text="Unselect All", on_press=partial(grid.unselect_all)
 
 show_grid_log = Button(text="Show log", on_press=partial(grid.show_log))
 
-add_custom_row = Button(text="Add Custom Row", on_press=partial(grid.show_log))
+###
+def modal_insert(self):
+	lbl1 = Label(text='ID', id="lbl")
+	lbl2 = Label(text='Nome', id="lbl")
+	lbl3 = Label(text='Preco', id="lbl")
+	lbl4 = Label(text='IVA', id="lbl")
+	txt1 = TextInput(text='000', id="txtinp")
+	txt2 = TextInput(text='Product Name', id="txtinp")
+	txt3 = TextInput(text='123.45', id="txtinp")
+	txt4 = TextInput(text='23', id="txtinp")
+
+	insertion_grid = GridLayout(cols=2)
+	insertion_grid.add_widget(lbl1)
+	insertion_grid.add_widget(txt1)
+	insertion_grid.add_widget(lbl2)
+	insertion_grid.add_widget(txt2)
+	insertion_grid.add_widget(lbl3)
+	insertion_grid.add_widget(txt3)
+	insertion_grid.add_widget(lbl4)
+	insertion_grid.add_widget(txt4)
+	# create content and assign to the view
+	
+	content = Button(text='Close me!')
+
+	modal_layout = BoxLayout(orientation="vertical")
+	modal_layout.add_widget(insertion_grid)
+
+	def insert_def(self):
+		input_list = []
+		for text_inputs in reversed(self.parent.children[2].children):
+			if text_inputs.id == "txtinp":
+				input_list.append(text_inputs.text)
+		print input_list
+		grid.add_row(input_list, body_alignment, col_size, self)
+		# print view
+		# view.dismiss		
 
 
+	insert_btn = Button(text="Insert", on_press=insert_def)	
+	modal_layout.add_widget(insert_btn)
+	modal_layout.add_widget(content)
 
+	view = ModalView(auto_dismiss=False)
+
+	view.add_widget(modal_layout)
+	# bind the on_press event of the button to the dismiss function
+	content.bind(on_press=view.dismiss)
+	insert_btn.bind(on_release=view.dismiss)
+	
+	view.open()
+
+add_custom_row = Button(text="Add Custom Row", on_press=modal_insert)
+
+###
 def json_fill(self):
 	for d in data:
 		print d
 		grid.add_row(d, body_alignment, col_size, self)
-	# for row in datalist:
-	# 	for cell in row:
-	# 		print cell
-	# 	print row
-		#grid.add_row(row, body_alignment, col_size)
 
-json_fill_btn = Button(text="JSON fill", on_press=json_fill)
+json_fill_btn = Button(text="JSON fill", on_press=partial(json_fill))
 
 btn_grid = BoxLayout(orientation="vertical")
 btn_grid.add_widget(json_fill_btn)
